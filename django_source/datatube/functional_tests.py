@@ -38,7 +38,8 @@ class NewVisitorTest(unittest.TestCase):
         table = self.browser.find_element(By.ID, 'id_search_results')
         rows = table.find_elements(By.TAG_NAME, 'tr')
         self.assertTrue(
-                any('cat' in row.text for row in rows)
+                any('cat' in row.text for row in rows),
+                "Search text did not yield any expected results"
                 )
 
         # The search box persists, inviting another search. John decides to search 'dog'
