@@ -2,4 +2,8 @@ db.sqlite3
 geckodriver.log
 __pycache__
 *.pyc
-virtualenv
+!virtualenv
+virtualenv/*
+!virtualenv/README.md
+tags
+database/kaggle_data/*
