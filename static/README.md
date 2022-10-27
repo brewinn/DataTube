@@ -4,6 +4,9 @@ The webserver (Nginx) will look for static files (Javascript, CSS, etc.) here.
 Do not place files here directly, but in `datatube/datatubeapp/static`. Django
 will collect these static files with `python manage.py collectstatic`. 
 
+_Note_: To avoid unintentionally deleting this file from the remote, run `git
+update-index --assume-unchanged static/README.md`.
+
 ### Attribution
 
 The original favicon for this project (the bug emoji) was generated using the
