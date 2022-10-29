@@ -1,0 +1,32 @@
+<html>
+
+<head>
+  <title>DataTube</title>
+  <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
+</head>
+
+<body>
+  <h1>DataTube</h1>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form }}
+  </form>
+
+  <h3>Active Query: {{ search_text }}</h3>
+  <table id="id_search_results">
+    {% if search_results %}
+    <th>Video ID</th>
+    <th>Title</th>
+    {% endif %}
+    {% for element in search_results %}
+    <tr>
+      <td>{{ element.videoid }}</td>
+      <td>{{ element.title }}</td>
+    </tr>
+    {% empty %}
+    <tr>No videos found</tr>
+    {% endfor %}
+  </table>
+</body>
+
+</html>

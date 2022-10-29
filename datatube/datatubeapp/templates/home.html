@@ -2,13 +2,17 @@
 
 <head>
   <title>DataTube</title>
+  <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
 </head>
 
 <body>
   <h1>DataTube</h1>
-  <input id="id_search_text" placeholder="Search..." />
-  <table id="id_search_results">
-  </table>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form }}
+  </form>
+
+  <h3>Active Query: None</h3>
 </body>
 
 </html>
