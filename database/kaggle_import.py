@@ -7,14 +7,14 @@ table = 'datatubeapp_video'
 cursor = connection.cursor()
 
 df = pd.read_csv('kaggle_data/USvideos.csv')
-df = df[['video_id', 'title']]
+df = df[['video_id', 'title', 'description']]
 
 print(df.head())
 
-insert_records = f"INSERT INTO {table} (videoid, title) VALUES(?,?)"
+insert_records = f"INSERT INTO {table} (videoid, title, description) VALUES(?,?,?)"
 
 for _, row in df.iterrows():
-    values = (row['video_id'], row['title'])
+    values = (row['video_id'], row['title'],row['description'])
     cursor.execute(insert_records, values)
 
 select_all = f"SELECT * FROM {table}"

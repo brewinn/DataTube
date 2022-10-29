@@ -17,11 +17,13 @@
     {% if search_results %}
     <th>Video ID</th>
     <th>Title</th>
+    <th>Description</th>
     {% endif %}
     {% for element in search_results %}
     <tr>
       <td>{{ element.videoid }}</td>
       <td>{{ element.title }}</td>
+      <td>{{ element.description }}</td>
     </tr>
     {% empty %}
     <tr>No videos found</tr>

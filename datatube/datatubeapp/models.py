@@ -10,7 +10,7 @@ class Video(models.Model):
     #tags = models.TextField(null=True)
     #likes = models.IntegerField(null=True)
     #dislikes = models.IntegerField(null=True)
-    #description = models.TextField(null=True)
+    description = models.TextField(null=True)
     #channel = models.TextField(null=True)
     #channel_url = models.TextField(null=True)
     #channel_subscribers = models.TextField(null=True)

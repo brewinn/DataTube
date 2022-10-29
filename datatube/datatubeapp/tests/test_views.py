@@ -19,22 +19,30 @@ class SearchViewTest(TestCase):
 
     def test_can_search_using_a_POST_request(self):
         initialize_database()
-        response = self.client.post('/', data={'search_text':'cat'}, follow=True)
+        response = self.client.post('/', data={'search_text':'cat', **SearchForm.modifier_defaults()}, follow=True)
         self.assertIn('cat', response.content.decode().lower())
         self.assertTemplateUsed(response, 'search.html')
 
+    def test_search_query_appears_in_response(self):
+        initialize_database()
+        response = self.client.post('/', data={'search_text':'dog', **SearchForm.modifier_defaults()}, follow=True)
+        self.assertIn('Active Query: dog', response.content.decode())
+
     def test_search_result_appears_in_table(self):
         initialize_database()
-        response = self.client.post('/', data={'search_text':'dog'}, follow=True)
+        response = self.client.post('/', data={'search_text':'dog', **SearchForm.modifier_defaults()}, follow=True)
         self.assertIn('dog video', response.content.decode())
-        self.assertTemplateUsed(response, 'search.html')
 
     def test_unrelated_items_do_not_appear_in_table(self):
         initialize_database()
-        response = self.client.post('/', data={'search_text':'dog'}, follow=True)
+        response = self.client.post('/', data={'search_text':'dog', **SearchForm.modifier_defaults()}, follow=True)
         self.assertNotIn('Cat', response.content.decode())
-        self.assertTemplateUsed(response, 'search.html')
         
+    def test_search_with_no_results_gives_informative_response(self):
+        initialize_database()
+        response = self.client.post('/', data={'search_text':'mango', **SearchForm.modifier_defaults()}, follow=True)
+        self.assertIn('No videos found', response.content.decode())
+
         
     def test_search_POST_redirects_to_SearchView(self):
         data={'search_text':'search text'}

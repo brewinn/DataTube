@@ -1,6 +1,8 @@
 from .base import FunctionalTest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException
+import time
 
 class NewVisitorTest(FunctionalTest):
     
@@ -46,3 +48,28 @@ class NewVisitorTest(FunctionalTest):
         self.wait_for_row_in_list_table('dog')
 
         # Satisfied, he heads off to sleep.
+
+    def test_can_search_with_a_modifier(self):
+
+        # John wants to make a new search.
+        self.browser.get(self.live_server_url)
+
+        # He's looking for a more specific result. He wants to find videos that
+        # mention dogs in the description, but not the title.
+        title_checkbox = self.browser.find_element(By.ID, 'id_search_title')
+        title_checkbox.click()
+        
+        description_checkbox = self.browser.find_element(By.ID, 'id_search_description')
+        description_checkbox.click()
+        
+        inputbox = self.browser.find_element(By.ID, 'id_search_text')
+        inputbox.send_keys('dog')
+        inputbox.send_keys(Keys.ENTER)
+
+        # He checks the results ... good.
+        self.wait_for_row_in_list_table('Cat video')
+        page_body = self.browser.find_element(By.TAG_NAME, 'body').text
+        self.assertNotIn('dog video', page_body)
+        
+        # He checks the url and sees and new `modifiers` section 
+        url = self.browser.current_url
