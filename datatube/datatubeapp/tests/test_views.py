@@ -1,7 +1,7 @@
 from .base import initialize_database
 from datatubeapp.forms import SearchForm
 from django.test import TestCase
-from unittest import skip
+from django.utils.html import escape
 
 # Create your tests here.
 class HomePageTest(TestCase):
@@ -9,7 +9,7 @@ class HomePageTest(TestCase):
 
     def test_home_page_returns_correct_html(self):
         response = self.client.get('/')
-        self.assertTemplateUsed(response, 'home.html')
+        self.assertTemplateUsed(response, 'base.html')
         
     def test_home_page_uses_search_form(self):
         response = self.client.get('/')
@@ -21,12 +21,17 @@ class SearchViewTest(TestCase):
         initialize_database()
         response = self.client.post('/', data={'search_text':'cat', **SearchForm.modifier_defaults()}, follow=True)
         self.assertIn('cat', response.content.decode().lower())
-        self.assertTemplateUsed(response, 'search.html')
+        self.assertTemplateUsed(response, 'base.html')
 
     def test_search_query_appears_in_response(self):
         initialize_database()
         response = self.client.post('/', data={'search_text':'dog', **SearchForm.modifier_defaults()}, follow=True)
         self.assertIn('Active Query: dog', response.content.decode())
+    
+    def test_search_modifiers_appears_in_response(self):
+        initialize_database()
+        response = self.client.post('/', data={'search_text':'dog', 'search_title':False, 'search_description':True}, follow=True)
+        self.assertIn(escape("Active Modifiers: {'search_title': False, 'search_description': True}"), response.content.decode())
 
     def test_search_result_appears_in_table(self):
         initialize_database()
@@ -42,7 +47,6 @@ class SearchViewTest(TestCase):
         initialize_database()
         response = self.client.post('/', data={'search_text':'mango', **SearchForm.modifier_defaults()}, follow=True)
         self.assertIn('No videos found', response.content.decode())
-
         
     def test_search_POST_redirects_to_SearchView(self):
         data={'search_text':'search text'}

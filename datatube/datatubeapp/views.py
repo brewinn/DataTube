@@ -7,9 +7,8 @@ def home_page(request):
         form = SearchForm(request.POST)
         return redirect(f'/search/{form.url()}')
     
-    return render(request, 'home.html', {
+    return render(request, 'base.html', {
         'form': SearchForm(),
-        'search_results': None
         })
 
 def search_page(request, query):
@@ -18,9 +17,10 @@ def search_page(request, query):
         return redirect(f'/search/{form.url()}')
     
     modifiers = request.META['QUERY_STRING']
-    return render(request, 'search.html', {
+    return render(request, 'base.html', {
         'form': SearchForm(),
         'search_text': query,
+        'search_modifiers': SearchForm.parse_modifiers(modifiers),
         'search_results': SearchForm().parse_search(query, modifiers).execute_search()
         })
     
