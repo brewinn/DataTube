@@ -20,23 +20,58 @@ project is made as part of CS-5443 Database Management Systems.
 
 ## Installation
 
-This section will describe how to install our project (but not how to use it!)
+First, pull down the repository with
+```
+git clone --depth 1 https://github.com/brewinn/DataTube.git
+```
 
-Todo
+Once pulled, you'll want to use a python virtual environment; the rest of this
+guide will use `venv`. Initialize a virtual environment with 
+```
+cd virtualenv
+python3 -m venv datatube
+```
+If the environment may then be activated with `source datatube/bin/activate`.
+The required python packages may then be installed with 
+```
+pip -r ../datatube/requirements.txt
+```
+
+### Setting up the database
+
+The current version utilizes sqlite3, and assumes an empty `db.sqlite3`
+database in the `datatube` directory. From the `datatube` directory, run 
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+To populate this database, `cd` into the `database` folder and run `python
+kaggle_import.py`.
+
+### Functional tests setup
+
+The functional tests rely on the Selenium testing framework, and assume that
+you have [Firefox](https://www.mozilla.org/en-US/firefox/new/) and
+[geckodriver](https://github.com/mozilla/geckodriver) installed. Installation
+may vary for each system, consult the [Selenium documentation](https://www.selenium.dev/documentation/) 
+for more information.
 
 ### Removal
 
-This section will describe how the project may be removed after installation.
-Do you simply delete the files or are there additional steps?
-
-Todo
+To remove, simply delete the repository. If you created the virtual environment
+separately, or installed the packages with a base python install, you'll have
+to remove those separately.
 
 ## Usage
 
-This section details how to use the project after it has been installed. This
-section will likely have multiple subsections.
+To run the server locally, run `python manage.py runserver` from the `datatube`
+directory. This will start a server and provide an address to view it --
+usually `localhost:8000`.
 
-Todo
+The tests can be run with `python manage.py test`. The unit tests will run
+without additional setup. To run just the unit tests, use `python manage.py
+test datatubeapp`, and use `python manage.py test functional_tests` to run just
+the functional tests.
 
 ## Development
 
@@ -60,14 +95,21 @@ MIT: <https://mit-license.org>
 
 Below is a list of currently implemented features:
 
-- None! :^)
+- Web server capable of basic video searching
+- URL redirection based on search query and modifiers
+- More to come
 
 ## To-do
 
-- [ ] Fill out the README
-- [ ] Finish initial project design
+- [X] Fill out the README
+- [X] Finish initial project design
 - [ ] Develop the back-end
 - [ ] Develop the web-app
+  - [X] Initial design
+  - [X] Basic functionality
+  - [ ] Advanced search capabilities
+  - [ ] More search catagories
+  - [ ] Individual video and channel views
 - [ ] Develop the front-end
 - [ ] Containerize the project
 - [ ] Deploy to live server
