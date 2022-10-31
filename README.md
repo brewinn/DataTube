@@ -31,8 +31,8 @@ guide will use `venv`. Initialize a virtual environment with
 cd virtualenv
 python3 -m venv datatube
 ```
-If the environment may then be activated with `source datatube/bin/activate`.
-The required python packages may then be installed with 
+If the environment is not already active, it may be activated with `source
+datatube/bin/activate`. The required python packages may then be installed with 
 ```
 pip -r ../datatube/requirements.txt
 ```
