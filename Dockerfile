@@ -17,11 +17,8 @@ RUN apt install netcat -y
 
 # Get dependencies
 RUN pip install --upgrade pip
-COPY ./requirements.txt .
+COPY datatube/requirements.txt .
 RUN pip install -r requirements.txt
-
-# Copy Django code
-COPY . .
 
 # Run entrypoint.sh (checks db is healthy before running migrations)
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
