@@ -11,7 +11,16 @@ MAX_WAIT = 1
 
 class FunctionalTest(StaticLiveServerTestCase):
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        command_executor = os.environ.get("WEBDRIVER_EXECUTOR")
+        if command_executor:
+            self.browser = webdriver.Remote(
+                command_executor=command_executor,
+                options=webdriver.FirefoxOptions()
+                )
+        else:
+            options=webdriver.FirefoxOptions()
+            options.add_argument('--headless')
+            self.browser = webdriver.Firefox(options=options)
         staging_server = os.environ.get('STAGING_SERVER')
         if staging_server:
             self.live_server_url = 'http://' + staging_server
@@ -20,6 +29,17 @@ class FunctionalTest(StaticLiveServerTestCase):
     def tearDown(self):
         self.browser.quit()
 
+    def wait_for_active_query(self):
+        start_time = time.time()
+        while True:
+            try:
+                self.browser.find_element(By.ID, 'active_query')
+                return
+            except (WebDriverException) as e:
+                if time.time() - start_time > MAX_WAIT:
+                    raise e
+                time.sleep(0.5)
+    
     def wait_for_row_in_list_table(self, row_text):
         start_time = time.time()
         while True:
@@ -43,5 +63,5 @@ class FunctionalTest(StaticLiveServerTestCase):
                     raise e
                 time.sleep(0.5)
 
-    def get_item_input_box(self):
-        return self.browser.find_element(By.ID, 'id_text')
+    def get_search_box(self):
+        return self.browser.find_element(By.ID, 'id_search_text')

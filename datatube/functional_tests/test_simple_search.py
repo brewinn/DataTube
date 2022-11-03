@@ -16,7 +16,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertIn('DataTube', header_text)
 
         # He's invited to do a search
-        inputbox = self.browser.find_element(By.ID, 'id_search_text')
+        inputbox = self.get_search_box()
         self.assertEqual(
                 inputbox.get_attribute('placeholder'),
                 'Input search terms...'
@@ -31,7 +31,7 @@ class NewVisitorTest(FunctionalTest):
 
         # The search box persists, inviting another search. John decides to search 'dog'
         # this time.
-        inputbox = self.browser.find_element(By.ID, 'id_search_text')
+        inputbox = self.get_search_box()
         inputbox.send_keys('dog')
         inputbox.send_keys(Keys.ENTER)
 
@@ -62,7 +62,7 @@ class NewVisitorTest(FunctionalTest):
         description_checkbox = self.browser.find_element(By.ID, 'id_search_description')
         description_checkbox.click()
         
-        inputbox = self.browser.find_element(By.ID, 'id_search_text')
+        inputbox = self.get_search_box()
         inputbox.send_keys('dog')
         inputbox.send_keys(Keys.ENTER)
 

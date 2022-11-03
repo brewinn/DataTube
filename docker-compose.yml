@@ -3,10 +3,11 @@ version: '3.8'
 services:
   django:
     build: .
+    hostname: django
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./datatube/:/usr/src/app/
-      - ./database/:/usr/src/db/
+      - ./database/:/usr/src/database/
     ports:
       - 8000:8000
     env_file:
@@ -22,6 +23,6 @@ services:
       - POSTGRES_USER=datatube_django
       - POSTGRES_PASSWORD=:^O
       - POSTGRES_DB=datatube_backend
-
+        
 volumes:
   postgres_data:
