@@ -9,3 +9,8 @@ Statistics](https://www.kaggle.com/datasets/datasnaek/youtube-new). Currently,
 it is used for testing. To populate it, download the data from
 [kaggle](https://www.kaggle.com/datasets/datasnaek/youtube-new),
 then unzip the contents into the `kaggle_data` folder.
+
+### PostgreSQL Queries
+
+The DataTubeQueries.sql contains the queries used to build the DataTube database in 
+PostgreSQL and to manipulate the Kaggle datasets.
