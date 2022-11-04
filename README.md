@@ -46,7 +46,8 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 To populate this database, `cd` into the `database` folder and run `python
-kaggle_import.py`.
+kaggle_import.py`. Note that you will need to supply the kaggle data, see
+`database/README.md` for details.
 
 ### Functional tests setup
 

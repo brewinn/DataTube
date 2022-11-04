@@ -17,14 +17,14 @@
   </form>
 
   {% if search_text %}
-  <h3>Active Query: {{ search_text }}</h3>
+  <h3 id="active_query">Active Query: {{ search_text }}</h3>
   {% else %}
-  <h3>Active Query: None</h3>
+  <h3 id="active_query">Active Query: None</h3>
   {% endif %}
   {% if search_modifiers %}
-  <h3>Active Modifiers: {{ search_modifiers }}</h3>
+  <h3 id="active_modifiers">Active Modifiers: {{ search_modifiers }}</h3>
   {% else %}
-  <h3>Active Modifiers: None</h3>
+  <h3 id="active_modifiers">Active Modifiers: None</h3>
   {% endif %}
   <table id="id_search_results">
     {% if search_results %}

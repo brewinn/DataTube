@@ -11,26 +11,31 @@ class SearchValidationTest(FunctionalTest):
 
         # Noticing the search box, he tries throwing some strange characters in
         # to see if it breaks. 
-        inputbox = self.browser.find_element(By.ID, 'id_search_text')
+        inputbox = self.get_search_box()
         inputbox.send_keys('#print(":^)")')
         inputbox.send_keys(Keys.ENTER)
+        self.wait_for_active_query()
 
         ## If something breaks, the search box will fail to appear.
-        inputbox = self.browser.find_element(By.ID, 'id_search_text')
+        inputbox = self.get_search_box()
         inputbox.send_keys('"')
         inputbox.send_keys(Keys.ENTER)
+        self.wait_for_active_query()
         
-        inputbox = self.browser.find_element(By.ID, 'id_search_text')
-        inputbox.send_keys("'")
-        inputbox.send_keys(Keys.ENTER)
-        
-        inputbox = self.browser.find_element(By.ID, 'id_search_text')
+        inputbox = self.get_search_box()
         inputbox.send_keys("\\")
         inputbox.send_keys(Keys.ENTER)
+        self.wait_for_active_query()
 
-        inputbox = self.browser.find_element(By.ID, 'id_search_text')
+        inputbox = self.get_search_box()
         inputbox.send_keys('--')
         inputbox.send_keys(Keys.ENTER)
+        self.wait_for_active_query()
+        
+        inputbox = self.get_search_box()
+        inputbox.send_keys("'")
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_active_query()
         
         # Nothing seems to work, so he leaves for the time being.
 
@@ -40,21 +45,24 @@ class SearchValidationTest(FunctionalTest):
 
         # This one wonders about the void... what does an empty search do?
         home_url = self.browser.current_url
-        inputbox = self.browser.find_element(By.ID, 'id_search_text')
+        inputbox = self.get_search_box()
         inputbox.send_keys(Keys.ENTER)
+        self.wait_for_active_query()
 
         # A popup appears, but no search starts.
         self.assertEqual(self.browser.current_url, home_url)
 
         # Undeterred, the monkey puts in a normal search.
-        search_url = self.browser.current_url
-        inputbox = self.browser.find_element(By.ID, 'id_search_text')
+        inputbox = self.get_search_box()
         inputbox.send_keys(':^]')
         inputbox.send_keys(Keys.ENTER)
+        self.wait_for_active_query()
+        search_url = self.browser.current_url
 
         # Seeing that the normal search succeeded, he tries the empty search again.
-        inputbox = self.browser.find_element(By.ID, 'id_search_text')
+        inputbox = self.get_search_box()
         inputbox.send_keys(Keys.ENTER)
+        self.wait_for_active_query()
 
         # Again, no luck
         self.assertEqual(self.browser.current_url, search_url)
