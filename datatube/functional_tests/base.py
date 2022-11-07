@@ -7,7 +7,7 @@ import os
 
 from datatubeapp.tests.base import initialize_database
 
-MAX_WAIT = 1
+MAX_WAIT = 5
 
 class FunctionalTest(StaticLiveServerTestCase):
     def setUp(self):
@@ -29,17 +29,9 @@ class FunctionalTest(StaticLiveServerTestCase):
     def tearDown(self):
         self.browser.quit()
 
-    def wait_for_active_query(self):
-        start_time = time.time()
-        while True:
-            try:
-                self.browser.find_element(By.ID, 'active_query')
-                return
-            except (WebDriverException) as e:
-                if time.time() - start_time > MAX_WAIT:
-                    raise e
-                time.sleep(0.5)
-    
+    def implicitly_wait(self, time=10):
+        self.browser.implicitly_wait(time)
+
     def wait_for_row_in_list_table(self, row_text):
         start_time = time.time()
         while True:
