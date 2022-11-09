@@ -40,13 +40,13 @@ at `localhost:8000`.
 
 ### Setting up the database
 
-The tests will run, but the database will be empty. To populate the database,
-you will need to supply the Kaggle data, see `database/README.md` for details.
-When the Kaggle data is in place, run
+The database should setup automatically. If it fails, check that the
+`kaggle_data` folder is present and populated (see `database/README.md`) and
+then run
 ```
-docker exec -it datatube-django-1 python ../db/kaggle_import_postgres.py
+docker exec -it datatube-django-1 python ../database/kaggle_import_postgres.py
 ```
-to populate the database.
+to populate the database manually.
 
 
 ### Removal

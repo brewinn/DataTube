@@ -1,5 +1,8 @@
 ## DataTube Virtual Environment
 
+_Note that it is not currently necessary to use a virtual environment. Only
+setup one if you need it for local development._
+
 It's good practice to use a virtual environment to avoid dependency issues. You
 may use whatever virtual environment you want (venv, poetry, etc.). The
 requirements.txt file lists out the expected packages. In the interest of

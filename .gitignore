@@ -6,5 +6,4 @@ __pycache__
 virtualenv/*
 !virtualenv/README.md
 tags
-database/kaggle_data/*
 datatube/datatube/secret_key.py
