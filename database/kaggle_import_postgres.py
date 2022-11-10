@@ -18,6 +18,8 @@ def main():
     df = pd.read_csv('../database/kaggle_data/USvideos.csv')
     df = df[['video_id', 'title', 'description']]
 
+    df = df.drop_duplicates(subset=['video_id'])
+
     insert_records = f"INSERT INTO {table} (videoid, title, description) VALUES(%s,%s,%s)"
 
     with connection.cursor() as cursor:
