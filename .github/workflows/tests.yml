@@ -24,4 +24,4 @@ jobs:
     - name: Wait for containers to finish startup
       run: timeout 500 ./deploy_tools/ci_check.sh
     - name: Run unit-tests
-      run: docker exec -it datatube_django_1 python manage.py test datatubeapp
+      run: docker exec datatube_django_1 python manage.py test datatubeapp
