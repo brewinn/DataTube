@@ -19,7 +19,7 @@ def search_page(request, query):
     modifiers = request.META['QUERY_STRING']
     return render(request, 'base.html', {
         'form': SearchForm(),
-        'search_text': query,
+        'search_text': SearchForm.parse_query(query),
         'search_modifiers': SearchForm.parse_modifiers(modifiers),
         'search_results': SearchForm().parse_search(query, modifiers).execute_search()
         })

@@ -66,8 +66,17 @@ class SearchForm(forms.Form):
                     parsed_mods[key] = parsed_value
         return parsed_mods
 
+        
+    @staticmethod
+    def parse_query(query:str)->str:
+        parsed_query = parse_qs('search_text='+query)
+        decoded_query = parsed_query['search_text'][0]
+        return decoded_query
+        
+
     @classmethod
     def parse_search(cls, query, modifiers=None):
+        query = SearchForm.parse_query(query)
         if not modifiers:
             return cls(data={'search_text':query, **SearchForm.modifier_defaults()})
         parsed_modifiers = SearchForm.parse_modifiers(modifiers)

@@ -57,3 +57,14 @@ class SearchFormTest(TestCase):
         modifiers='search_title=False&search_description=True'
         parsed_modifiers = SearchForm.parse_modifiers(modifiers)
         self.assertEqual(parsed_modifiers, {'search_title':False, 'search_description':True})
+
+    def test_parse_multiword_search(self):
+        encoded_query = 'dog+and+cat'
+        parsed_query = SearchForm.parse_query(encoded_query)
+        self.assertEqual(parsed_query,'dog and cat')
+
+    def test_url_encodes_multiword_search(self):
+        query = 'dog and cat'
+        form = SearchForm(data={'search_text':query, **SearchForm.modifier_defaults()})
+        expected_form_url = 'query=dog+and+cat'
+        self.assertEqual(form.url(), expected_form_url)
