@@ -47,7 +47,7 @@ The database should setup automatically. If it fails, check that the
 `kaggle_data` folder is present and populated (see `database/README.md`) and
 then run
 ```
-docker exec -it datatube-django-1 python ../database/kaggle_import_postgres.py
+docker exec datatube-django-1 python ../database/kaggle_import_postgres.py
 ```
 to populate the database manually.
 
@@ -69,9 +69,9 @@ After initializing the containers, the website will be available at `localhost:8
 
 The tests can be run with 
 ```
-docker exec -it datatube-django-1 python manage.py test                       # To run all tests
-docker exec -it datatube-django-1 python manage.py test datatubeapp           # To run just the unit tests
-docker exec -it datatube-django-1 python manage.py test functional_tests      # To run just the functional tests
+docker exec datatube-django-1 python manage.py test                       # To run all tests
+docker exec datatube-django-1 python manage.py test datatubeapp           # To run just the unit tests
+docker exec datatube-django-1 python manage.py test functional_tests      # To run just the functional tests
 ```
 
 ## Development
