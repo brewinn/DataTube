@@ -1,4 +1,7 @@
 # DataTube
+
+[![Tests](https://github.com/brewinn/DataTube/actions/workflows/tests.yml/badge.svg)](https://github.com/brewinn/DataTube/actions/workflows/tests.yml)
+
 A YouTube video search application
 
 ## Description
