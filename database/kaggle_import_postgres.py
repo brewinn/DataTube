@@ -4,6 +4,10 @@ import os
 from json_mapping import process_json_mapping
 
 
+def parse_tags(tags):
+    return tags.replace('"', '').split('|')
+
+
 def main():
 
     print("Beginning video data import...", flush=True)
@@ -15,21 +19,23 @@ def main():
         port=os.environ.get("SQL_PORT"),
     )
 
-    table = 'datatubeapp_video'
+    video_table = 'datatubeapp_video'
+    tag_table = 'datatubeapp_tag'
 
     df = pd.read_csv('../database/kaggle_data/USvideos.csv')
     mapping = process_json_mapping('../database/kaggle_data/US_category_id.json')
 
     df = df.drop_duplicates(subset=['video_id'])
 
-    insert_records = f"INSERT INTO {table} (videoid, title, views, published, likes, dislikes, commentcount, description, channel, categoryid, category) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    insert_video_records = f"INSERT INTO {video_table} (videoid, title, views, published, likes, dislikes, commentcount, description, channel, categoryid, category) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    insert_tag_records = f"INSERT INTO {tag_table} (videoid, tag) VALUES (%s,%s)"
 
     with connection.cursor() as cursor:
-        select_all = f"SELECT * FROM {table}"
+        select_all = f"SELECT * FROM {video_table}"
         cursor.execute(select_all)
         rows = cursor.fetchall()
         if len(rows) > 0:
-            print(f"Table {table} not empty, aborting import...", flush=True)
+            print(f"Table {video_table} not empty, aborting import...", flush=True)
             connection.close()
             return
 
@@ -48,7 +54,10 @@ def main():
                     row['category_id'],
                     mapping[str(row['category_id'])],
                 )
-                cursor.execute(insert_records, values)
+                tag_entries = parse_tags(row['tags'])
+                for tag in tag_entries:
+                    cursor.execute(insert_tag_records, (row['video_id'], tag))
+                cursor.execute(insert_video_records, values)
 
     connection.commit()
     connection.close()

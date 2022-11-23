@@ -8,7 +8,6 @@ class Video(models.Model):
     title = models.TextField()
     views = models.IntegerField(null=True)
     published = models.DateField(null=True)
-    # tags = models.TextField(null=True) #TODO: Split off tags
     likes = models.IntegerField(null=True)
     dislikes = models.IntegerField(null=True)
     commentcount = models.IntegerField(null=True)
@@ -28,3 +27,8 @@ class Channel(models.Model):
     views = models.TextField(null=True)
     joined = models.TextField(null=True)
     description = models.TextField(null=True)
+
+
+class Tag(models.Model):
+    videoid = models.CharField(max_length=12)
+    tag = models.TextField()
