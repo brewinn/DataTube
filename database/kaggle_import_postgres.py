@@ -17,11 +17,10 @@ def main():
     table = 'datatubeapp_video'
 
     df = pd.read_csv('../database/kaggle_data/USvideos.csv')
-    df = df[['video_id', 'channel_title', 'title', 'description']]
 
     df = df.drop_duplicates(subset=['video_id'])
 
-    insert_records = f"INSERT INTO {table} (videoid, title, channel, description) VALUES(%s,%s,%s,%s)"
+    insert_records = f"INSERT INTO {table} (videoid, title, views, published, likes, dislikes, commentcount, description, channel, categoryid) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
     with connection.cursor() as cursor:
         select_all = f"SELECT * FROM {table}"
@@ -37,8 +36,14 @@ def main():
                 values = (
                     row['video_id'],
                     row['title'],
-                    row['channel_title'],
+                    row['views'],
+                    row['publish_time'],
+                    row['likes'],
+                    row['dislikes'],
+                    row['comment_count'],
                     row['description'],
+                    row['channel_title'],
+                    row['category_id'],
                 )
                 cursor.execute(insert_records, values)
 
