@@ -15,6 +15,7 @@ class Video(models.Model):
     description = models.TextField(null=True)
     channel = models.TextField(null=True)
     categoryid = models.IntegerField(null=True)
+    category = models.TextField(null=True)
 
     def __str__(self):
         return f'{self.videoid}:{self.title}'

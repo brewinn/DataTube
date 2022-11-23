@@ -1,6 +1,7 @@
 import pandas as pd
 import psycopg2
 import os
+from json_mapping import process_json_mapping
 
 
 def main():
@@ -17,10 +18,11 @@ def main():
     table = 'datatubeapp_video'
 
     df = pd.read_csv('../database/kaggle_data/USvideos.csv')
+    mapping = process_json_mapping('../database/kaggle_data/US_category_id.json')
 
     df = df.drop_duplicates(subset=['video_id'])
 
-    insert_records = f"INSERT INTO {table} (videoid, title, views, published, likes, dislikes, commentcount, description, channel, categoryid) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    insert_records = f"INSERT INTO {table} (videoid, title, views, published, likes, dislikes, commentcount, description, channel, categoryid, category) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
 
     with connection.cursor() as cursor:
         select_all = f"SELECT * FROM {table}"
@@ -44,6 +46,7 @@ def main():
                     row['description'],
                     row['channel_title'],
                     row['category_id'],
+                    mapping[str(row['category_id'])],
                 )
                 cursor.execute(insert_records, values)
 
