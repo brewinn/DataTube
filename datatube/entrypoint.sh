@@ -12,8 +12,10 @@ then
 fi
 
 python manage.py flush --no-input
+python manage.py makemigrations
 python manage.py migrate
 
+python ../database/channel_import_postgres.py
 python ../database/kaggle_import_postgres.py
 
 exec "$@"

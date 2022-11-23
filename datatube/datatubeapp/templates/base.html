@@ -30,12 +30,14 @@
     {% if search_results %}
     <th>Video ID</th>
     <th>Title</th>
+    <th>Channel</th>
     <th>Description</th>
     {% endif %}
     {% for element in search_results %}
     <tr>
       <td>{{ element.videoid }}</td>
       <td>{{ element.title }}</td>
+      <td><a href="{% url 'channel-view' element.channel %}">{{ element.channel }}</a></td>
       <td>{{ element.description }}</td>
     </tr>
     {% empty %}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DataTube</title>
+  <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
+</head>
+
+<body>
+  <h1>DataTube</h1>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form }}
+  </form>
+
+  <table id="id_channel_data">
+    {% if channel_data %}
+    <th>Channel</th>
+    <th>Channel URL</th>
+    <th>Channel Subscribers</th>
+    <th>Total Video Views</th>
+    <th>Join Date</th>
+    <th>Description</th>
+    {% endif %}
+    {% for element in channel_data %}
+    <tr>
+      <td>{{ element.channel }}</td>
+      <td>{{ element.channel_url }}</td>
+      <td>{{ element.subscribers }}</td>
+      <td>{{ element.views }}</td>
+      <td>{{ element.joined }}</td>
+      <td>{{ element.description }}</td>
+    </tr>
+    {% empty %}
+    <tr>No such channel found</tr>
+    {% endfor %}
+  </table>
+</body>
+
+</html>
