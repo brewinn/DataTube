@@ -9,3 +9,7 @@ search_urlpatterns = [
 channel_urlpatterns = [
     path('<str:query>', views.channel_page, name='channel-view'),
 ]
+
+video_urlpatterns = [
+    path('<str:query>', views.video_page, name='video-view'),
+]

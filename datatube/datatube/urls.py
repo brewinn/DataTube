@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.urls import path, include
 from datatubeapp import views
-from datatubeapp.urls import search_urlpatterns, channel_urlpatterns
+from datatubeapp.urls import search_urlpatterns, channel_urlpatterns, video_urlpatterns
 
 urlpatterns = [
     path("", views.home_page, name='home'),
     path("search/", include(search_urlpatterns)),
     path("channel/", include(channel_urlpatterns)),
+    path("video/", include(video_urlpatterns)),
 ]

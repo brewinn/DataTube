@@ -38,3 +38,14 @@ def channel_page(request, query):
         'channel_data': SearchForm().find_channel(query),
         'channel_video_results': SearchForm().find_channel_videos(query),
     })
+
+
+def video_page(request, query):
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        return redirect(f'/search/{form.url()}')
+
+    return render(request, 'video.html', {
+        'form': SearchForm(),
+        'video_result': SearchForm().find_video(query),
+    })

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DataTube</title>
+  <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
+</head>
+
+<body>
+  <h1>DataTube</h1>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form }}
+  </form>
+
+  <h2>Video Data</h2>
+  <table id="id_video_data">
+    {% for element in video_result %}
+    <tr>
+      <th>Video ID</th>
+      <td>{{ element.videoid }}</td>
+    </tr>
+    <tr>
+      <th>Title</th>
+      <td>{{ element.title }}</td>
+    </tr>
+    <tr>
+      <th>Channel</th>
+      <td><a href="{% url 'channel-view' element.channel %}">{{ element.channel }}</a></td>
+    </tr>
+    <tr>
+      <th>Views</th>
+      <td>{{ element.views }}</td>
+    </tr>
+    <tr>
+      <th>Published</th>
+      <td>{{ element.published }}</td>
+    </tr>
+    <tr>
+      <th>Comment Count</th>
+      <td>{{ element.commentcount }}</td>
+    </tr>
+    <tr>
+      <th>Category</th>
+      <td>{{ element.category }}</td>
+    </tr>
+    <tr>
+      <th>Likes</th>
+      <td>{{ element.likes }}</td>
+    </tr>
+    <tr>
+      <th>Dislikes</th>
+      <td>{{ element.dislikes }}</td>
+    </tr>
+    <tr>
+      <th>Description</th>
+      <td>{{ element.description }}</td>
+    </tr>
+    <tr>
+      <th>Tags</th>
+      <td>Todo</td>
+    </tr>
+    {% empty %}
+    <tr>Video not found.</tr>
+    {% endfor %}
+  </table>
+</body>
+
+</html>

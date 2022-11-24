@@ -49,7 +49,7 @@
     {% endif %}
     {% for element in channel_video_results %}
     <tr>
-      <td>{{ element.videoid }}</td>
+      <td><a href="{% url 'video-view' element.videoid %}">{{ element.videoid }}</a></td>
       <td>{{ element.title }}</td>
       <td>{{ element.description }}</td>
     </tr>
