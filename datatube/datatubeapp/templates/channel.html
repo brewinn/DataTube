@@ -16,6 +16,7 @@
     {{ form }}
   </form>
 
+  <h2>Channel Data </h2>
   <table id="id_channel_data">
     {% if channel_data %}
     <th>Channel</th>
@@ -36,6 +37,24 @@
     </tr>
     {% empty %}
     <tr>No such channel found</tr>
+    {% endfor %}
+  </table>
+
+  <h2>Channel Videos</h2>
+  <table id="id_channel_videos">
+    {% if channel_video_results %}
+    <th>Video ID</th>
+    <th>Title</th>
+    <th>Description</th>
+    {% endif %}
+    {% for element in channel_video_results %}
+    <tr>
+      <td>{{ element.videoid }}</td>
+      <td>{{ element.title }}</td>
+      <td>{{ element.description }}</td>
+    </tr>
+    {% empty %}
+    <tr>No videos found for this channel.</tr>
     {% endfor %}
   </table>
 </body>

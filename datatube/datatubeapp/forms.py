@@ -43,6 +43,9 @@ class SearchForm(forms.Form):
     def find_channel(self, query):
         return Channel.objects.filter(channel__exact=query)
 
+    def find_channel_videos(self, query):
+        return Video.objects.filter(channel__exact=query)
+
     def url(self):
         if not self.is_valid():
             raise ValidationError("Search form invalid, cannot return form url:{self.errors}")

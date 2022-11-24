@@ -35,5 +35,6 @@ def channel_page(request, query):
 
     return render(request, 'channel.html', {
         'form': SearchForm(),
-        'channel_data': SearchForm().find_channel(query)
+        'channel_data': SearchForm().find_channel(query),
+        'channel_video_results': SearchForm().find_channel_videos(query),
     })
