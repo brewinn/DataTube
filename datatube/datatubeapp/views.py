@@ -48,4 +48,5 @@ def video_page(request, query):
     return render(request, 'video.html', {
         'form': SearchForm(),
         'video_result': SearchForm().find_video(query),
+        'video_tags': SearchForm().find_video_tags(query),
     })

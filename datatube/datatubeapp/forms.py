@@ -8,7 +8,7 @@ from django import forms
 from django.utils.html import urlencode
 from django.core.exceptions import ValidationError
 from django.db.models import Q
-from datatubeapp.models import Video, Channel
+from datatubeapp.models import Video, Channel, Tag
 from urllib.parse import parse_qs
 
 
@@ -48,6 +48,12 @@ class SearchForm(forms.Form):
 
     def find_video(self, query):
         return Video.objects.filter(videoid__exact=query)
+
+    def find_video_tags(self, query):
+        found_tags = Tag.objects.filter(videoid__exact=query)
+        tags = [tag.tag for tag in found_tags]
+        joined_tags = '|'.join(tags)
+        return joined_tags
 
     def url(self):
         if not self.is_valid():
