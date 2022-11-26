@@ -10,14 +10,6 @@ from django.core.exceptions import ValidationError
 from django.db.models import Q
 from datatubeapp.models import Video, Channel, Tag
 from urllib.parse import parse_qs
-from django.conf import settings
-import logging
-
-fmt = getattr(settings, 'LOG_FORMAT', None)
-lvl = getattr(settings, 'LOG_LEVEL', logging.DEBUG)
-
-logging.basicConfig(format=fmt, level=lvl)
-logging.debug("Logging started on %s for %s" % (logging.root.name, logging.getLevelName(lvl)))
 
 
 class SearchForm(forms.Form):
@@ -26,6 +18,7 @@ class SearchForm(forms.Form):
     search_title = forms.BooleanField(required=False, initial=True)
     search_tags = forms.BooleanField(required=False)
     search_description = forms.BooleanField(required=False)
+    full_text_search = forms.BooleanField(required=False)
 
     @staticmethod
     def modifier_defaults():
@@ -33,6 +26,7 @@ class SearchForm(forms.Form):
             'search_title': True,
             'search_tags': False,
             'search_description': False,
+            'full_text_search': False,
         }
 
     def execute_search(self):
@@ -44,21 +38,24 @@ class SearchForm(forms.Form):
             return Video.objects.none()
 
         query = Q()
-        if data['search_description']:
-            query |= Q(description__icontains=search)
-        if data['search_title']:
-            query |= Q(title__icontains=search)
-        if data['search_tags']:
-            # Don't know why, but tag__icontains fails, so we'll filter manually.
-            matches = Tag.objects.all()
-            matching_videos = set()
-            for match in matches:
-                if search in match.tag:
-                    matching_videos.add(match.videoid)
-
-            matching_videos = {match.videoid for match in matches if match.tag == search}
-            logging.debug(f'{matching_videos=}')
-            query |= Q(videoid__in=matching_videos)
+        if data['full_text_search']:
+            if data['search_description']:
+                query |= Q(description__search=search)
+            if data['search_title']:
+                query |= Q(title__search=search)
+            if data['search_tags']:
+                matches = Tag.objects.filter(tag__search=search)
+                matching_videos = {match.videoid for match in matches}
+                query |= Q(videoid__in=matching_videos)
+        else:
+            if data['search_description']:
+                query |= Q(description__icontains=search)
+            if data['search_title']:
+                query |= Q(title__icontains=search)
+            if data['search_tags']:
+                matches = Tag.objects.filter(tag__icontains=search)
+                matching_videos = {match.videoid for match in matches if match.tag == search}
+                query |= Q(videoid__in=matching_videos)
 
         return Video.objects.filter(query)
 
