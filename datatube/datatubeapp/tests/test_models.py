@@ -3,6 +3,8 @@ from django.test import TestCase
 from datatubeapp.models import Video
 
 # Create your tests here.
+
+
 class VideoModelsTest(TestCase):
     '''Tests for the video table'''
 
