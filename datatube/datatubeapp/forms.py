@@ -19,6 +19,18 @@ class SearchForm(forms.Form):
     search_tags = forms.BooleanField(required=False)
     search_description = forms.BooleanField(required=False)
     full_text_search = forms.BooleanField(required=False)
+    sort_by = forms.ChoiceField(
+        choices=(
+                ('VA', 'Views Ascending'),
+                ('VD', 'Views Descending'),
+                ('LA', 'Likes Ascending'),
+                ('LD', 'Likes Descending'),
+                ('DA', 'Dislikes Ascending'),
+                ('DD', 'Dislikes Descending'),
+                ('CA', 'Comments Ascending'),
+                ('CD', 'Comments Descending'),
+        )
+    )
 
     @staticmethod
     def modifier_defaults():
@@ -27,11 +39,12 @@ class SearchForm(forms.Form):
             'search_tags': False,
             'search_description': False,
             'full_text_search': False,
+            'sort_by': 'VA',
         }
 
     def execute_search(self):
         if not self.is_valid():
-            raise ValidationError("Search form invalid, cannot execute search:{self.errors}")
+            raise ValidationError(f"Search form invalid, cannot execute search:{self.errors}")
         data = self.cleaned_data
         search = data.pop('search_text')
         if not any(data.values()):
@@ -57,7 +70,26 @@ class SearchForm(forms.Form):
                 matching_videos = {match.videoid for match in matches if match.tag == search}
                 query |= Q(videoid__in=matching_videos)
 
-        return Video.objects.filter(query)
+        videos = Video.objects.filter(query)
+
+        if data['sort_by'] == 'VA':
+            return videos.order_by('views')
+        if data['sort_by'] == 'VD':
+            return videos.order_by('-views')
+        if data['sort_by'] == 'LA':
+            return videos.order_by('likes')
+        if data['sort_by'] == 'VD':
+            return videos.order_by('-likes')
+        if data['sort_by'] == 'DA':
+            return videos.order_by('dislikes')
+        if data['sort_by'] == 'DD':
+            return videos.order_by('-dislikes')
+        if data['sort_by'] == 'CA':
+            return videos.order_by('commentcount')
+        if data['sort_by'] == 'CD':
+            return videos.order_by('-commentcount')
+
+        return videos
 
     def find_channel(self, query):
         query = SearchForm.parse_query(query)
@@ -98,9 +130,12 @@ class SearchForm(forms.Form):
         mod_dict = parse_qs(modifiers)
         parsed_mods = {}
         for key, value in mod_dict.items():
-            parsed_value = True if value[0] == 'True' else False
-            if SearchForm.modifier_defaults()[key] != parsed_value:
-                parsed_mods[key] = parsed_value
+            if key == 'sort_by':
+                parsed_mods[key] = value[0]
+            else:
+                parsed_value = True if value[0] == 'True' else False
+                if SearchForm.modifier_defaults()[key] != parsed_value:
+                    parsed_mods[key] = parsed_value
         return parsed_mods
 
     @ staticmethod
