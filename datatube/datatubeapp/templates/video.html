@@ -30,7 +30,7 @@
     </tr>
     <tr>
       <th>Channel</th>
-      <td><a href="{% url 'channel-view' element.channel %}">{{ element.channel }}</a></td>
+      <td><a href="{% url 'channel-view' element.channel|urlencode:"" %}">{{ element.channel }}</a></td>
     </tr>
     <tr>
       <th>Views</th>

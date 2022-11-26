@@ -38,7 +38,7 @@
     <tr>
       <td><a href="{% url 'video-view' element.videoid %}">{{ element.videoid }}</a></td>
       <td>{{ element.title }}</td>
-      <td><a href="{% url 'channel-view' element.channel %}">{{ element.channel }}</a></td>
+      <td><a href="{% url 'channel-view' element.channel|urlencode:"" %}">{{ element.channel }}</a></td>
       <td>{{ element.description }}</td>
     </tr>
     {% empty %}
