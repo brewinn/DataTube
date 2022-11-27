@@ -13,7 +13,6 @@ project is made as part of CS-5443 Database Management Systems.
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Development](#development)
 - [Credits](#credits)
 - [License](#license)
 - [Features](#features)
@@ -74,12 +73,6 @@ docker exec datatube-django-1 python manage.py test datatubeapp           # To r
 docker exec datatube-django-1 python manage.py test functional_tests      # To run just the functional tests
 ```
 
-## Development
-
-This section describes agreed upon practices/conventions. We may not need it.
-
-Todo
-
 ## Credits
 
 The original project developers include Brendan Winn, Joshua Romero, Mengke
@@ -98,21 +91,22 @@ Below is a list of currently implemented features:
 
 - Web server capable of basic video searching
 - URL redirection based on search query and modifiers
-- More to come
+- Views for search, individual channels, and individual videos
+- Search of multiple text fields, including full text search
+- Unit testing for individual project components, and several integration tests
+- URL encoding and input sanitization
 
 ## To-do
 
 - [X] Fill out the README
 - [X] Finish initial project design
-- [ ] Develop the back-end
-  - [X] Move to PostgreSQL
-  - [ ] Develop final database schema
+- [X] Develop the back-end
 - [ ] Develop the web-app
   - [X] Initial design
   - [X] Basic functionality
-  - [ ] Advanced search capabilities
-  - [ ] More search catagories
-  - [ ] Individual video and channel views
+  - [X] Advanced search capabilities
+  - [ ] More search categories
+  - [X] Individual video and channel views
 - [ ] Develop the front-end
 - [X] Containerize the project
 - [ ] Deploy to live server
@@ -125,4 +119,5 @@ done to build upon or improve the project?
 ## Project Status
 
 The project is currently being designed and developed. With everything
-containerized, it should be simple to pull down and run.
+containerized, it should be simple to pull down and run. The back-end is
+considered finished.
