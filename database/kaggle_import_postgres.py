@@ -27,7 +27,7 @@ def main():
 
     df = df.drop_duplicates(subset=['video_id'])
 
-    insert_video_records = f"INSERT INTO {video_table} (videoid, title, views, published, likes, dislikes, commentcount, description, channel, categoryid, category) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    insert_video_records = f"INSERT INTO {video_table} (videoid, title, views, published, likes, dislikes, commentcount, description, channel,  category) VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     insert_tag_records = f"INSERT INTO {tag_table} (videoid, tag) VALUES (%s,%s)"
 
     with connection.cursor() as cursor:
@@ -51,7 +51,6 @@ def main():
                     row['comment_count'],
                     row['description'],
                     row['channel_title'],
-                    row['category_id'],
                     mapping[str(row['category_id'])],
                 )
                 tag_entries = parse_tags(row['tags'])

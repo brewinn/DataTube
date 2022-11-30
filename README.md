@@ -101,23 +101,21 @@ Below is a list of currently implemented features:
 - [X] Fill out the README
 - [X] Finish initial project design
 - [X] Develop the back-end
-- [ ] Develop the web-app
-  - [X] Initial design
-  - [X] Basic functionality
-  - [X] Advanced search capabilities
-  - [ ] More search categories
-  - [X] Individual video and channel views
-- [ ] Develop the front-end
+- [X] Develop the web-app
+- [X] Develop the front-end
 - [X] Containerize the project
-- [ ] Deploy to live server
+- [X] Deploy to live server
 
 ## Future Work
 
-This section is more for when the project is considered complete. What could be
-done to build upon or improve the project?
+The basics, along with some useful search features and views, have been
+implemented. There are numerous improvements or additions that could be made:
+- Add more search options -- e.g. a regex based search
+- Prettier views -- some basic styling has been added, but there's much to improve
+- More videos -- more videos would make the tool more useful, but can cause throughput issues if not properly implemented
+- User convenience features -- e.g. hover preview, like you see on Wikipedia
+And many more potential features.
 
 ## Project Status
 
-The project is currently being designed and developed. With everything
-containerized, it should be simple to pull down and run. The back-end is
-considered finished.
+Project is considered finished. Addition pushes may occur to fix bugs or correct mistakes.

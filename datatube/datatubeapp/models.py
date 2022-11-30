@@ -13,7 +13,6 @@ class Video(models.Model):
     commentcount = models.IntegerField(null=True)
     description = models.TextField(null=True)
     channel = models.TextField(null=True)
-    categoryid = models.IntegerField(null=True)
     category = models.TextField(null=True)
 
     def __str__(self):

@@ -33,7 +33,8 @@ class SearchViewTest(TestCase):
     def test_search_modifiers_appears_in_response(self):
         initialize_database()
         response = self.client.post('/', data={**SearchForm.modifier_defaults(), 'search_text': 'dog', 'search_title': False, 'search_description': True}, follow=True)
-        self.assertIn(escape("Active Modifiers: {'search_title': False, 'search_description': True}"), response.content.decode())
+        self.assertIn(escape("'search_title': False"), response.content.decode())
+        self.assertIn(escape("'search_description': True"), response.content.decode())
 
     def test_search_result_appears_in_table(self):
         initialize_database()
