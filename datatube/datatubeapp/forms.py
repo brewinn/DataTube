@@ -14,7 +14,7 @@ from urllib.parse import parse_qs
 
 class SearchForm(forms.Form):
     '''This is the form for searching for videos/channels.'''
-    search_text = forms.CharField(label='Search text', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Input search terms...'}))
+    search_text = forms.CharField(label='Search text', widget=forms.TextInput(attrs={'placeholder': 'Input search terms...'}))
     search_title = forms.BooleanField(required=False, initial=True)
     search_tags = forms.BooleanField(required=False)
     search_description = forms.BooleanField(required=False)
@@ -108,6 +108,10 @@ class SearchForm(forms.Form):
         joined_tags = '|'.join(tags)
         return joined_tags
 
+
+    def find_channel_videos(self, query):
+        return Video.objects.filter(channel__exact=query)
+        
     def url(self):
         if not self.is_valid():
             raise ValidationError("Search form invalid, cannot return form url:{self.errors}")
@@ -125,10 +129,18 @@ class SearchForm(forms.Form):
         url = urlencode({"query": query}) + '/modifiers?' + urlencode({**url_mods})
         return url.strip()
 
-    @ staticmethod
+    def r_url(self):
+        if not self.is_valid():
+            raise ValidationError("Search form invalid, cannot return form url:{self.errors}")
+        data = self.cleaned_data
+        query = data.pop('search_text')
+        url = urlencode({"query": query})
+        return url.strip()
+
+    @staticmethod
     def parse_modifiers(modifiers: str) -> dict:
         mod_dict = parse_qs(modifiers)
-        parsed_mods = {}
+        parsed_mods = SearchForm.modifier_defaults()
         for key, value in mod_dict.items():
             if key == 'sort_by':
                 parsed_mods[key] = value[0]
