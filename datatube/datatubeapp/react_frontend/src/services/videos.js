@@ -1,6 +1,7 @@
 import axios from 'axios'
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
+const baseURL = '/api/data'
 
 const getCRSF = async () => {
   const request = await axios.get('')
@@ -28,7 +29,7 @@ const loadPage = async (props) =>
   newObject.append('full_text_search', props[4] ? 'True' : 'False')
   newObject.append('sort_by', dic[props[5]])
   newObject.append('react','on')
-  const response = await axios.post('', newObject)
+  const response = await axios.post(baseURL, newObject)
   return response.data
 }
 const getChannel = async (text) =>{
